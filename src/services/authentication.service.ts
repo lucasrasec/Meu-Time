@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, finalize, pipe } from 'rxjs';
+import { Observable } from 'rxjs';
 
 export interface User {
   firstname: string,
@@ -18,11 +18,7 @@ export interface statusResponse {
     total: number
     }
     response: {
-    account: {
-    firstname: string
-    lastname: string
-    email: string
-    }
+    account: User
     subscription: {
     plan: string
     end: string
@@ -41,7 +37,7 @@ export class AuthenticationService {
   private autentication_url = 'https://v3.football.api-sports.io/status';
 
   private isLogged = false;
-  private user!: User
+  private user!: User;
 
   constructor(private http: HttpClient) { }
 
@@ -56,13 +52,43 @@ export class AuthenticationService {
 
   logout(): void {
     this.isLogged = false;
+    this.user = {} as User;
+    localStorage.removeItem('loggedUser')
   }
 
-  login(): void {
+  login(user: User, key: string): void {
     this.isLogged = true;
+    this.user = user
+    this.setKey(key);
+
+    const userInfo = {
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+      key: key
+    }
+
+    localStorage.setItem('loggedUser', JSON.stringify(userInfo))
   }
 
   isAuthenticated() {
+    const localInfo = (localStorage.getItem('loggedUser'));
+    if (!localInfo) {
+      return this.isLogged
+    }
+
+    const userInfo = JSON.parse(localInfo)
+
+    this.api_key = userInfo.key
+
+    this.user = {
+      firstname: userInfo.firstname,
+      lastname: userInfo.lastname,
+      email: userInfo.email
+    }
+
+    this.isLogged = true
+
     return this.isLogged;
   }
 
@@ -76,9 +102,5 @@ export class AuthenticationService {
 
   getUser(): User {
     return this.user
-  }
-
-  setUser(user: User) {
-    this.user = user
   }
 }

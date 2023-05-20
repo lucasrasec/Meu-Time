@@ -13,6 +13,8 @@ export class AppComponent {
   ngOnInit() {
     if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/login']);
+    } else {
+      this.router.navigate(['/home']);
     }
   }
 }
