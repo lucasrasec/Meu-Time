@@ -41,7 +41,7 @@ export class AuthenticationService {
   private autentication_url = 'https://v3.football.api-sports.io/status';
 
   private isLogged = false;
-  private user?: User | null;
+  private user!: User
 
   constructor(private http: HttpClient) { }
 
@@ -72,5 +72,13 @@ export class AuthenticationService {
 
   getKey(): string {
     return this.api_key
+  }
+
+  getUser(): User {
+    return this.user
+  }
+
+  setUser(user: User) {
+    this.user = user
   }
 }
