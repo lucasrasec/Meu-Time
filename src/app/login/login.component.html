@@ -1,0 +1,15 @@
+<main class="main">
+  <section class="form">
+    <form (ngSubmit)="login()">
+      <mat-form-field class="key-input">
+        <mat-label>Chave da API</mat-label>
+        <input matInput [formControl]="api_key">
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" class="login">Primary</button>
+      <a mat-flat-button href="https://dashboard.api-football.com/register" target="_blank" class="link">Consultar/Criar chave</a>
+    </form>
+  </section>
+  <section class="info">
+    ui
+  </section>
+</main>
