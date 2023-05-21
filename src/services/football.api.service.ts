@@ -2,22 +2,19 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthenticationService } from './authentication.service';
 
-export interface Country {
-  name: string,
-  code: string,
-  flag: string,
-}
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FootballApiService {
-  private url = 'https://v3.football.api-sports.io/'
+  private url = 'https://v3.football.api-sports.io/';
 
-  constructor(private http: HttpClient, private authService:AuthenticationService) { }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthenticationService
+  ) {}
 
   getCountries() {
-    const url = `${ this.url }countries`
+    const url = `${this.url}countries`;
     const key = this.authService.getKey();
     const headers = {
       'x-rapidapi-host': 'api-football-v1.p.rapidapi.com',
@@ -27,7 +24,7 @@ export class FootballApiService {
   }
 
   getSeasons() {
-    const url = `${ this.url }leagues/seasons`
+    const url = `${this.url}leagues/seasons`;
     const key = this.authService.getKey();
     const headers = {
       'x-rapidapi-host': 'api-football-v1.p.rapidapi.com',
@@ -37,7 +34,7 @@ export class FootballApiService {
   }
 
   getLeague(country: string) {
-    const url = `${ this.url }leagues`
+    const url = `${this.url}leagues`;
     const key = this.authService.getKey();
     const headers = {
       'x-rapidapi-host': 'api-football-v1.p.rapidapi.com',
@@ -46,13 +43,13 @@ export class FootballApiService {
     return this.http.get(url, {
       headers,
       params: {
-        country
-      }
+        country,
+      },
     });
   }
 
   getTeams(league: number, season: number) {
-    const url = `${ this.url }teams`
+    const url = `${this.url}teams`;
     const key = this.authService.getKey();
     const headers = {
       'x-rapidapi-host': 'api-football-v1.p.rapidapi.com',
@@ -62,8 +59,42 @@ export class FootballApiService {
       headers,
       params: {
         league,
-        season
-      }
+        season,
+      },
+    });
+  }
+
+  getPayers(team: number, league: number, season: number) {
+    const url = `${this.url}players`;
+    const key = this.authService.getKey();
+    const headers = {
+      'x-rapidapi-host': 'api-football-v1.p.rapidapi.com',
+      'x-rapidapi-key': key,
+    };
+    return this.http.get(url, {
+      headers,
+      params: {
+        league,
+        season,
+        team,
+      },
+    });
+  }
+
+  getStatistics(team: number, league: number, season: number) {
+    const url = `${this.url}statistics`;
+    const key = this.authService.getKey();
+    const headers = {
+      'x-rapidapi-host': 'api-football-v1.p.rapidapi.com',
+      'x-rapidapi-key': key,
+    };
+    return this.http.get(url, {
+      headers,
+      params: {
+        league,
+        season,
+        team,
+      },
     });
   }
 }

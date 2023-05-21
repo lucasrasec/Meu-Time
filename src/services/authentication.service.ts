@@ -3,35 +3,35 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface User {
-  firstname: string,
-  lastname: string,
-  email: string
+  firstname: string;
+  lastname: string;
+  email: string;
 }
 
 export interface statusResponse {
-    get: string,
-    parameters: Array<any>
-    errors: Array<any>
-    results: number
-    paging: {
-    current: number
-    total: number
-    }
-    response: {
-    account: User
+  get: string;
+  parameters: Array<any>;
+  errors: Array<any>;
+  results: number;
+  paging: {
+    current: number;
+    total: number;
+  };
+  response: {
+    account: User;
     subscription: {
-    plan: string
-    end: string
-    active: boolean
-    }
+      plan: string;
+      end: string;
+      active: boolean;
+    };
     requests: {
-    current: number
-    limit_day: number
-    }
-  }
+      current: number;
+      limit_day: number;
+    };
+  };
 }
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   private api_key: string = '';
   private autentication_url = 'https://v3.football.api-sports.io/status';
@@ -39,7 +39,7 @@ export class AuthenticationService {
   private isLogged = false;
   private user!: User;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public validateKey(key: string): Observable<statusResponse> {
     const headers = {
@@ -47,7 +47,7 @@ export class AuthenticationService {
       'x-rapidapi-key': key,
     };
 
-    return this.http.get<statusResponse>(this.autentication_url,  { headers });
+    return this.http.get<statusResponse>(this.autentication_url, { headers });
   }
 
   logout(): void {
@@ -66,13 +66,13 @@ export class AuthenticationService {
       lastname: user.lastname,
       email: user.email,
       key: key,
-    }
+    };
 
     localStorage.setItem('loggedUser', JSON.stringify(userInfo));
   }
 
   isAuthenticated() {
-    const localInfo = (localStorage.getItem('loggedUser'));
+    const localInfo = localStorage.getItem('loggedUser');
     if (!localInfo) {
       return this.isLogged;
     }
@@ -85,7 +85,7 @@ export class AuthenticationService {
       firstname: userInfo.firstname,
       lastname: userInfo.lastname,
       email: userInfo.email,
-    }
+    };
 
     this.isLogged = true;
 

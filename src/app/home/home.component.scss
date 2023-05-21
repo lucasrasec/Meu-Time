@@ -15,10 +15,15 @@
       justify-content: center;
       gap: 2rem;
       padding: 1rem;
-      background-color: #929292;
+      background-color: #aaaaaa;
       position: absolute;
       width: 100%;
+      z-index: 10000;
     }
+  }
+
+  .team-information {
+    height: inherit;
   }
 }
 

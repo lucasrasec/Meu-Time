@@ -1,14 +1,25 @@
 <main class="main">
   <section class="form">
+    <h1>Fazer Login</h1>
     <form (ngSubmit)="login()">
       <mat-form-field class="key-input">
         <mat-label>Chave da API</mat-label>
-        <input matInput [formControl]="api_key">
+        <input matInput [formControl]="api_key" />
       </mat-form-field>
-      <button mat-raised-button color="primary" type="submit" class="login">Primary</button>
-      <a mat-flat-button href="https://dashboard.api-football.com/register" target="_blank" class="link">Consultar/Criar chave</a>
+      <button mat-raised-button color="primary" type="submit" class="login">
+        Primary
+      </button>
+      <a
+        mat-flat-button
+        href="https://dashboard.api-football.com/register"
+        target="_blank"
+        class="link"
+        >Consultar/Criar chave</a
+      >
     </form>
-    <div class="loading" *ngIf="loading"><mat-spinner [diameter]="30"></mat-spinner> Verificando Chave...</div>
+    <div class="loading" *ngIf="loading">
+      <mat-spinner [diameter]="30"></mat-spinner> Verificando Chave...
+    </div>
   </section>
   <section class="info">
     <h1>Meu Time</h1>
