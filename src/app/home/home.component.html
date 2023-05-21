@@ -1,1 +1,70 @@
-<p>home works!</p>
+<main class="main">
+  <header>
+    <section class="top-bar">
+      <p style="margin: 0;">
+        <mat-toolbar>
+          <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="toggleFilters()">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <span>Bem Vindo {{ user.firstname }}</span>
+          <span class="spacer"></span>
+          <button mat-icon-button class="example-icon favorite-icon" aria-label="Botão de sair" (click)="confirmLogout()">
+            <mat-icon>logout</mat-icon>
+          </button>
+        </mat-toolbar>
+      </p>
+    </section>
+    <section  class="filter-options" [class.slideInDown]="filtersOpen" [class.slideOutUp]="!filtersOpen" *ngIf="firstOpen">
+          <mat-form-field class="example-full-width" *ngIf="!loadingCountries">
+            <mat-label>Pais</mat-label>
+            <input type="text" placeholder="Selecione um Pais" matInput [(ngModel)]="country_name" (ngModelChange)="toggleCountries()" [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option [value]="" *ngIf="countrySelected">
+                Limpar
+              </mat-option>
+              <mat-option *ngFor="let country of countries" [value]="country.name">
+                {{country.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" *ngIf="!loadingSeasons">
+            <mat-label>Temporada</mat-label>
+            <input type="text" placeholder="Selecione uma temporada" matInput [(ngModel)]="season" [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option [value]="" *ngIf="season">
+                Limpar
+              </mat-option>
+              <mat-option *ngFor="let season of seasons" [value]="season">
+                {{season}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" >
+            <mat-label>Liga</mat-label>
+            <input type="text" placeholder="Selecione uma Liga" matInput [(ngModel)]="league" (ngModelChange)="toggleLeague()" [matAutocomplete]="auto" [disabled]="disableLeague()">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option [value]="" *ngIf="league">
+                Limpar
+              </mat-option>
+              <mat-option *ngFor="let league of leagues" [value]="league.name">
+                {{league.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Time</mat-label>
+            <input type="text" placeholder="Selecione uma Time" matInput [(ngModel)]="team" [matAutocomplete]="auto"
+              [disabled]="disableTeams()">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option [value]="" *ngIf="team">
+                Limpar
+              </mat-option>
+              <mat-option *ngFor="let team of teams" [value]="team.name">
+                {{team.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+    </section>
+  </header>
+</main>
+
