@@ -1,0 +1,97 @@
+<main class="team-informations">
+  <section class="no-data" *ngIf="!team_id || !season">
+    <mat-icon svgIcon="data_alert" class="alert"></mat-icon>
+    <div class="information">
+      <h1>Nenhum time selecionado</h1>
+      <p>
+        Filtros no canto superior da tela
+        <mat-icon class="info-icon">menu</mat-icon>
+      </p>
+    </div>
+  </section>
+  <section
+    class="loading-data"
+    *ngIf="team_id && (loadingPlayers || loadingStatistics)"
+  >
+    <mat-spinner [diameter]="60"></mat-spinner>
+    <h2>Carregando informações...</h2>
+  </section>
+  <section class="loaded-data" *ngIf="!loadingPlayers || !loadingStatistics">
+    <section class="fixtures">
+      <section class="team-info">
+        <mat-card class="team-card">
+          <mat-card-header class="team-header">
+            <!-- fixture.team.name -->
+            <mat-card-title-group>
+              <mat-card-title class="team-name">{{ team.name }}</mat-card-title>
+              <img
+                mat-card-sm-image
+                [src]="team.logo"
+                [alt]="team.name + ' logo'"
+              />
+            </mat-card-title-group>
+          </mat-card-header>
+        </mat-card>
+      </section>
+      <section class="lineups">
+        <h2>Fromações</h2>
+        <section class="team-lineups">
+          <mat-card *ngFor="let lineup of lineups" class="lineup-card">
+            <mat-card-header class="lineup-header">
+              <mat-card-title>{{ lineup.formation }}</mat-card-title>
+              <mat-card-subtitle
+                >Jogadas {{ lineup.played }} Vezes</mat-card-subtitle
+              >
+            </mat-card-header>
+          </mat-card>
+        </section>
+      </section>
+    </section>
+    <section class="statistics">
+      <section class="players">
+        <h3>Jogadores</h3>
+        <mat-card class="player-card" *ngFor="let player of players">
+          <mat-card-header class="header">
+            <mat-card-title-group>
+              <mat-card-title class="title"> {{ player.name }} </mat-card-title>
+              <mat-card-subtitle>
+                {{ player.nationality }}, {{ player.age }} anos
+              </mat-card-subtitle>
+              <img
+                mat-card-md-image
+                [src]="player.photo"
+                [alt]="player.name + ' foto'"
+              />
+            </mat-card-title-group>
+          </mat-card-header>
+        </mat-card>
+      </section>
+      <section class="team-statistics">
+        <section class="table">
+          <table
+            mat-table
+            [dataSource]="parsedFixtures"
+            class="mat-elevation-z8"
+          >
+            <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef>Categorias</th>
+              <td mat-cell *matCellDef="let element">{{ element.type }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="total">
+              <th mat-header-cell *matHeaderCellDef>Total</th>
+              <td mat-cell *matCellDef="let element">{{ element.total }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </section>
+        <section class="graph">
+          <h2>Gols dentro das faixas de tempo</h2>
+          <app-graph [data]="minutes"></app-graph>
+        </section>
+      </section>
+    </section>
+  </section>
+</main>

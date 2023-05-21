@@ -1,32 +1,47 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { EMPTY, catchError, take, tap } from 'rxjs';
+import { finalize, take } from 'rxjs';
 import { AuthenticationService } from 'src/services/authentication.service';
 
 @Component({
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  api_key = new FormControl('');
+  api_key = new FormControl<string>('');
 
-  constructor(private authService: AuthenticationService, private router: Router) {}
+  loading = false;
+
+  constructor(
+    private authService: AuthenticationService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
 
   login() {
-    this.authService.validateKey(this.api_key.value as string)
-    .pipe(
-      tap((data) => {
-        localStorage.setItem('loggedUser', data.response.account.toString());
-        this.authService.login();
-        this.router.navigate(['/home']);
-      }),
-      catchError((error) => {
-        alert('Erro ao tentar validar a chave: ');
-        return EMPTY;
-      }),
-      take(1)
-    )
-    .subscribe();
+    this.loading = true;
+    this.authService
+      .validateKey(this.api_key.value as string)
+      .pipe(
+        take(1),
+        finalize(() => (this.loading = false))
+      )
+      .subscribe((data) => {
+        if (data.errors && !data.response.account) {
+          this.snackBar.open(
+            'Erro na autenticação da chave, verificar a procedencia da mesma',
+            '',
+            { duration: 3000 }
+          );
+        } else {
+          this.authService.login(
+            data.response.account,
+            this.api_key.value as string
+          );
+          this.router.navigate(['/home']);
+        }
+      });
   }
 }
