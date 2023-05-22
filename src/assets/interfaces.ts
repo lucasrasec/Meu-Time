@@ -73,7 +73,7 @@ export interface Statistics {
 }
 
 export interface Lineup {
-  fomation: string;
+  formation: string;
   played: number;
 }
 

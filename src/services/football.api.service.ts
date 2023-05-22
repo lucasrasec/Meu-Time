@@ -82,7 +82,7 @@ export class FootballApiService {
   }
 
   getStatistics(team: number, league: number, season: number) {
-    const url = `${this.url}statistics`;
+    const url = `${this.url}teams/statistics`;
     const key = this.authService.getKey();
     const headers = {
       'x-rapidapi-host': 'api-football-v1.p.rapidapi.com',

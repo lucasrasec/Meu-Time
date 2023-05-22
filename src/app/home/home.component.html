@@ -63,7 +63,7 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="example-full-width" *ngIf="!disableLeague()">
         <mat-label>Liga</mat-label>
         <input
           type="text"
@@ -72,7 +72,6 @@
           [(ngModel)]="league"
           (ngModelChange)="toggleLeague()"
           [matAutocomplete]="auto"
-          [disabled]="disableLeague()"
         />
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
           <mat-option [value]="" *ngIf="league"> Limpar </mat-option>
@@ -81,16 +80,15 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="example-full-width" *ngIf="!disableTeams()">
         <mat-label>Time</mat-label>
         <input
           type="text"
-          placeholder="Selecione uma Time"
+          placeholder="Selecione um Time"
           matInput
           [(ngModel)]="team"
           (ngModelChange)="toggleTeam()"
           [matAutocomplete]="auto"
-          [disabled]="disableTeams()"
         />
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
           <mat-option [value]="" *ngIf="team"> Limpar </mat-option>

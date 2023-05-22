@@ -47,7 +47,6 @@
       gap: 3rem;
       justify-content: center;
       align-items: center;
-      flex-wrap: wrap;
       border-radius: 0.75em;
       background-color: #191919;
       padding: 10px;
@@ -105,14 +104,15 @@
 
       .players {
         width: 20%;
+        min-width: 300px;
         display: flex;
         align-items: center;
         flex-direction: column;
         gap: 0.5rem;
-        overflow: hidden;
+        overflow: scroll;
         border-radius: 0.75em;
         background-color: #191919;
-        height: 100%;
+        max-height: 700px;
         padding: 0.5rem 1rem;
 
         h3 {
@@ -151,18 +151,32 @@
           padding: 1rem;
         }
 
-        .graph {
+        .graphs-section {
           display: flex;
-          flex-direction: column;
           gap: 1rem;
           justify-content: center;
           align-items: center;
 
-          h2 {
-            color: #fff;
+          .graph {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            h2 {
+              color: #fff;
+            }
           }
         }
       }
     }
   }
+}
+
+.data-not-found {
+  display: flex;
+  gap: 1rem;
+  font-size: 14px;
+  color: #fff;
 }
