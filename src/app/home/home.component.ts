@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/services/authentication.service';
 import { ConfirmationDialogComponent } from '../dialog/confirmation.dialog.component';
 import { FootballApiService } from 'src/services/football.api.service';
-import { pipe, take } from 'rxjs';
+import { finalize, pipe, take } from 'rxjs';
 import { Country, LeagueList, Team, User } from 'src/assets/interfaces';
 @Component({
   selector: 'app-home',
@@ -101,12 +101,15 @@ export class HomeComponent {
   getTeams(league: number, season: number) {
     this.footballApi
       .getTeams(league, season)
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        finalize(() => (this.loadingTeams = false))
+      )
       .subscribe((data: any) => {
-        this.leagues = data.response.map((result: any) => {
+        this.teams = data.response.map((result: any) => {
           return result.team;
         });
-        this.loadingTeams = false;
+        console.log(this.teams);
       });
   }
 
@@ -162,12 +165,13 @@ export class HomeComponent {
   toggleTeam() {
     this.team_id = this.checkDataID(this.team, this.teams);
     this.league_id = this.checkDataID(this.league, this.leagues);
+    console.log(this.team_id, this.league_id);
   }
 
   checkDataID(searchString: string, searchArray: Array<any>) {
     const searchData = searchArray.filter((data) => data.name === searchString);
     if (searchData) {
-      return (searchData as any).id;
+      return (searchData as any)[0].id;
     }
     return undefined;
   }

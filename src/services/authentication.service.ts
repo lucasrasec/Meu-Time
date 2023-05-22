@@ -1,35 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface User {
-  firstname: string;
-  lastname: string;
-  email: string;
-}
-
-export interface statusResponse {
-  get: string;
-  parameters: Array<any>;
-  errors: Array<any>;
-  results: number;
-  paging: {
-    current: number;
-    total: number;
-  };
-  response: {
-    account: User;
-    subscription: {
-      plan: string;
-      end: string;
-      active: boolean;
-    };
-    requests: {
-      current: number;
-      limit_day: number;
-    };
-  };
-}
+import { User, statusResponse } from 'src/assets/interfaces';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {

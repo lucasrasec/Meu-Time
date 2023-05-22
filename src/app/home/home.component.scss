@@ -17,8 +17,9 @@
       padding: 1rem;
       background-color: #aaaaaa;
       position: absolute;
-      width: 100%;
-      z-index: 10000;
+      width: inherit;
+      z-index: 1;
+      border-radius: 5px;
     }
   }
 
